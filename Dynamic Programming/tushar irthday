@@ -1,0 +1,29 @@
+long long t[1001][1001];
+long long solv(const vector<int> &c,const vector<int> &d, int a,int i)
+{
+    if(a==0)
+        return 0;
+    if(i>=c.size())
+        return INT_MAX;
+    if(t[i][a]!=-1)
+        return t[i][a];
+    if(a-c[i]>=0)
+    {
+        t[i][a]=min(d[i] + solv(c,d,a-c[i],i),solv(c,d,a,i+1));
+    }
+    else
+    {
+        t[i][a]=solv(c,d,a,i+1);
+    }
+    return t[i][a];
+}
+int Solution::solve(const vector<int> &a, const vector<int> &c, const vector<int> &d) {
+
+    int n=a.size(),cost=0;
+    memset(t,-1,sizeof(t));
+    for(int i=0;i<n;i++)
+    {
+        cost+=(int)solv(c,d,a[i],0);
+    }
+    return cost;
+}
